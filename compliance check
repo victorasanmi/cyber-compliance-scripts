@@ -1,0 +1,74 @@
+# define the users and their roles
+users = {
+    "victor.asanmi@email.com": "teller",
+    "james.scott@email.com": "loan_officer",
+    "sarah.cox@email.com": "it_support",
+    "janet.exeter@email.com": "account_officer"
+}
+
+# define the permissions
+permissions = {
+    "teller": ["view_customer_account"],
+    "loan_officer": ["view_customer_account", "approve_loan"],
+    "it_support": ["manage_systems"],
+    "account_officer": ["view_customer_account", "manage_account"]
+}
+
+# define function to check user permission
+def check_permissions (user, action):
+    role = users.get(user)
+    if not role:
+        return f"User '{user}' does not exist."
+    if action in permissions.get(role, []):
+        return f"Access granted for '{user}' to perform '{action}'."
+    return f"Access denied for '{user}' to perform '{action}'."
+
+# Display a user-friendly menu
+def display_menu():
+    print("\n--- Role-Based Access Control System ---")
+    print("1. View available users and their roles")
+    print("2. View role-based permissions")
+    print("3. Check user access")
+    print("4. Exit")
+    print("---------------------------------------")
+    
+# Display users and their roles
+def view_users():
+    print("\n--- Users and Their Roles ---")
+    for user, role in users.items():
+        print(f"User: {user}, Role: {role}")
+
+# Display role-based permissions
+def view_permissions():
+    print("\n--- Role-Based Permissions ---")
+    for role, actions in permissions.items():
+        print(f"Role: {role}, Permissions: {', '.join(actions)}")
+
+# Main program loop
+def main():
+    while True:
+        display_menu()
+        choice = input("Enter your choice (1-4): ").strip()
+        
+        if choice == "1":
+            view_users()
+        elif choice == "2":
+            view_permissions()
+        elif choice == "3":
+            username = input("Enter the username: ").strip()
+            action = input("Enter the action to check: ").strip()
+            result = check_permissions(username, action)
+            print(result)
+        elif choice == "4":
+            print("Exiting the system. Goodbye!")
+            break
+        else:
+            print("Invalid choice! Please select a valid option.")
+
+# Run the program
+main()    
+
+# user_input = input("Enter Username: ").strip()
+# action_input = input("Enter the action to perform: ").strip()
+# result = check_permissions(user_input, action_input)
+# print(result)
